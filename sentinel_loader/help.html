@@ -1,0 +1,115 @@
+<h1>Sentinel Loader</h1>
+<p class="muted">Version 0.2 &nbsp;·&nbsp; Search, preview, load and export Sentinel-1, Sentinel-2 and Landsat imagery for the current map extent.</p>
+
+<p><b>Contents:</b>
+<a href="#start">Quick start</a> ·
+<a href="#data">Satellites &amp; products</a> ·
+<a href="#fire">Forest fire</a> ·
+<a href="#aoi">Area of interest</a> ·
+<a href="#actions">Preview, Load, Export</a> ·
+<a href="#names">Layer names</a> ·
+<a href="#limits">Limitations</a> ·
+<a href="#trouble">Troubleshooting</a> ·
+<a href="#history">Version history</a></p>
+
+<h2><a name="start"></a>1. Quick start</h2>
+<ol>
+<li>Zoom the QGIS map canvas to your area. <b>The visible canvas extent is the search area.</b></li>
+<li>Choose <b>Satellite</b>, <b>Collection</b> (one collection, or <i>All collections</i>) and <b>Product</b>.</li>
+<li>Set the <b>From / To</b> dates and, for optical sensors, the <b>maximum cloud cover</b>.</li>
+<li>Click <b>Search scenes</b>. Up to 100 of the newest scenes are listed.</li>
+<li>Select a scene. Click <b>Preview</b> for a quick look, <b>Load in QGIS</b> to add it as a layer, or <b>Export GeoTIFF</b> to save a local copy.</li>
+</ol>
+<p>Imagery comes from the free Microsoft Planetary Computer. No account is needed, but an internet connection is.</p>
+
+<h2><a name="data"></a>2. Satellites, collections and products</h2>
+<table border="1" cellspacing="0" cellpadding="6" width="100%">
+<tr><th align="left">Satellite</th><th align="left">Collection</th><th align="left">Products</th></tr>
+<tr><td>Sentinel-2</td><td>L2A (optical, surface reflectance)</td><td>True colour, False colour (NIR-R-G), Agriculture (SWIR-NIR-B), SWIR (B12-NIR-R), <b>Forest fire (QuickFire)</b></td></tr>
+<tr><td>Sentinel-1</td><td>RTC (radar, terrain-corrected)</td><td>VV, VH, VV + VH</td></tr>
+<tr><td>Landsat</td><td>Collection 2 Level-2 (Landsat 4-9)</td><td>True colour, False colour, Agriculture, SWIR</td></tr>
+<tr><td>Landsat</td><td>Landsat 1-5 MSS, Collection 2 Level-1</td><td>False colour</td></tr>
+</table>
+<p><b>All collections</b> searches every collection of the chosen satellite and merges the results into one list, newest first. A product is usable only for scenes whose collection supports it. Radar has no cloud cover, so the cloud filter is hidden for Sentinel-1.</p>
+<p>Each scene row shows: date · cloud % (or orbit direction for radar) · platform · scene ID.</p>
+
+<h2><a name="fire"></a>3. Forest fire (QuickFire)</h2>
+<p>Sentinel-2 only. Active-fire hotspots are detected from the shortwave-infrared bands (B11 + B12) and tinted over a natural-colour image. Based on QuickFire v1.0.0 by Pierre Markuse (CC BY 4.0).</p>
+<table border="1" cellspacing="0" cellpadding="6" width="100%">
+<tr><th align="left">Control</th><th align="left">Effect</th></tr>
+<tr><td>Fire sensitivity (0.5 – 2.0)</td><td>Higher values mark more pixels as hotspots</td></tr>
+<tr><td>Hotspot style</td><td>Heat tint, solid red, solid yellow, or subtle red shift</td></tr>
+<tr><td>Show burn scars</td><td>Brightens dark, recently burned ground</td></tr>
+</table>
+<p>The result is computed on your computer and saved as a temporary GeoTIFF, so it is slower than the streamed products. Clouds are masked with the scene classification band. Results are <b>indicative only</b> and must not be used for operational fire detection.</p>
+
+<h2><a name="aoi"></a>4. Area of interest (AOI) and size limits</h2>
+<p>The AOI is the <b>map canvas extent at the moment you click Search</b>, converted to longitude/latitude and clipped to the world (±180°, ±90°). If you move or zoom the map afterwards, search again.</p>
+<table border="1" cellspacing="0" cellpadding="6" width="100%">
+<tr><th align="left">Action</th><th align="left">Maximum AOI</th><th align="left">Approx. size</th></tr>
+<tr><td>Search, Preview, Load (streamed products)</td><td>No limit</td><td>-</td></tr>
+<tr><td>Export GeoTIFF</td><td>1.5° wide and high</td><td>about 165 km</td></tr>
+<tr><td>Forest fire (Preview excluded)</td><td>0.5° wide and high</td><td>about 55 km</td></tr>
+</table>
+<p>If the AOI is too large the tool shows a message. Zoom in, search again, then retry. A scene may cover only part of your AOI; areas outside the scene are empty or transparent. If the AOI does not touch the scene at all, Preview and Export fail.</p>
+
+<h2><a name="actions"></a>5. Preview, Load and Export</h2>
+<table border="1" cellspacing="0" cellpadding="6" width="100%">
+<tr><th align="left"></th><th align="left">Preview</th><th align="left">Load in QGIS</th><th align="left">Export GeoTIFF</th></tr>
+<tr><td>What it does</td><td>Shows a small picture in a window</td><td>Adds a layer to the project</td><td>Saves a clipped, compressed file and adds it</td></tr>
+<tr><td>Data</td><td>Streamed, reduced size</td><td>Streamed on demand</td><td>Downloaded and clipped</td></tr>
+<tr><td>Works offline</td><td>No</td><td>No</td><td>Yes, once saved</td></tr>
+<tr><td>Lifetime</td><td>Temporary</td><td>About 1 hour (signed link expires)</td><td>Permanent</td></tr>
+</table>
+<p>If a streamed layer stops drawing after about an hour, remove it and load the scene again. Composite bands are raw reflectance: adjust the stretch in <i>Layer Styling</i>. Radar is linear backscatter power.</p>
+
+<h2><a name="names"></a>6. Layer names</h2>
+<p>Layers are named <b>&lt;scene id&gt;_&lt;product&gt;</b>, with spaces as underscores. For Sentinel-2, for example:<br>
+<code>S2C_MSIL2A_20261017T003701_True_colour_(RGB)</code><br>
+Sentinel-1 and Landsat use the full scene ID.</p>
+
+<h2><a name="limits"></a>7. Limitations</h2>
+<ul>
+<li><b>Source:</b> only Planetary Computer collections are offered. Not available: Sentinel-2 L1C, Sentinel-1 GRD/SLC, Sentinel-3, Sentinel-5P, and Landsat Level-1 for Landsat 4-9 (they would need Copernicus Data Space or USGS accounts).</li>
+<li><b>Search:</b> maximum 100 scenes per collection, no paging. The cloud filter is applied after that cap.</li>
+<li><b>One scene at a time:</b> no mosaicking of neighbouring tiles.</li>
+<li><b>AOI:</b> fixed at search time; export up to 1.5°, fire product up to 0.5° (see section 4).</li>
+<li><b>Streaming:</b> links expire after about 1 hour. Remote reads do not use the QGIS proxy settings.</li>
+<li><b>Preview:</b> auto-stretched, so colours differ from QGIS. For the fire product it runs the full calculation at low resolution.</li>
+<li><b>Fire product:</b> 20 m bands are resampled to 10 m (blocky hotspots); bright soil, sun glint or hot industrial sites can cause false alarms and small fires can be missed; Sentinel-2 revisits about every 5 days, so it is not real time.</li>
+<li><b>Landsat MSS:</b> band names are untested.</li>
+<li><b>Housekeeping:</b> temporary files are not deleted automatically. No automated tests yet.</li>
+</ul>
+
+<h2><a name="trouble"></a>8. Troubleshooting</h2>
+<table border="1" cellspacing="0" cellpadding="6" width="100%">
+<tr><th align="left">Message</th><th align="left">Cause</th><th align="left">What to do</th></tr>
+<tr><td>'From' date is after 'To' date.</td><td>Date range reversed</td><td>Swap the dates</td></tr>
+<tr><td>Network request failed</td><td>No internet, proxy or firewall</td><td>Check QGIS network settings; make sure planetarycomputer.microsoft.com is reachable</td></tr>
+<tr><td>No scenes found</td><td>Range too narrow, cloud limit too low, or open ocean</td><td>Widen the dates, raise the cloud limit or move the map</td></tr>
+<tr><td>Scene … has no … asset</td><td>Product not available for that scene</td><td>Pick another scene or product</td></tr>
+<tr><td>'…' is not available for …</td><td>Product not supported by that scene's collection</td><td>Pick another product or scene</td></tr>
+<tr><td>Could not open the imagery</td><td>Remote files could not be read</td><td>Retry; check the network</td></tr>
+<tr><td>QGIS could not read the imagery</td><td>Link expired or connection lost</td><td>Click Load in QGIS again</td></tr>
+<tr><td>AOI is larger than …°</td><td>Area too big for Export or Forest fire</td><td>Zoom in, search again, retry</td></tr>
+<tr><td>Export / Preview failed: AOI may be outside the scene</td><td>Scene does not cover the AOI</td><td>Select a scene that covers the area</td></tr>
+</table>
+
+<h2><a name="history"></a>9. Version history</h2>
+<p><b>0.2</b></p>
+<ul>
+<li>Preview button</li>
+<li>Forest fire (QuickFire) product for Sentinel-2</li>
+<li>Satellite → Collection menu with "All collections"; Landsat MSS added</li>
+<li>New layer naming: scene ID + product</li>
+<li>This Help window</li>
+</ul>
+<p><b>0.1</b></p>
+<ul>
+<li>Search Sentinel-2, Sentinel-1 and Landsat through Planetary Computer by map extent, dates and cloud cover</li>
+<li>True colour, false colour, agriculture, SWIR and radar composites</li>
+<li>Streamed loading and GeoTIFF export</li>
+</ul>
+
+<p class="muted">Author: Rohit Kumar · rohit.kumar@azistaindustries.com<br>
+Imagery: Copernicus Sentinel data and USGS Landsat, served by Microsoft Planetary Computer.</p>
