@@ -6,6 +6,8 @@
 - New product: Forest fire (QuickFire), Sentinel-2 only, with sensitivity, hotspot style and burn-scar options (AOI up to 0.5°)
 - Layer names are now `<scene id>_<product>` with underscores (Sentinel-2: `S2C_MSIL2A_20261017T003701_True_colour_(RGB)`)
 - Added docs/LIMITATIONS.md
+- Renamed the plugin to TerraFetch (GPL-3.0-or-later licence, README with install steps and limitations)
+- Renamed the plugin to TerraFetch (GPL-3.0-or-later licence, README with install steps and limitations)
 - Help (?) button in the dialog: user guide, limitations and changelog
 - New Satellite > Collection menu, with an "All collections" option that merges results into one list; added Landsat 1-5 MSS C2 L1
 
