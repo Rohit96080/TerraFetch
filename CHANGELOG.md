@@ -5,6 +5,7 @@
 - Preview button: quick look of the selected scene and product, clipped to the AOI
 - New product: Forest fire (QuickFire), Sentinel-2 only, with sensitivity, hotspot style and burn-scar options (AOI up to 0.5°)
 - Layer names are now `<scene id>_<product>` with underscores (Sentinel-2: `S2C_MSIL2A_20261017T003701_True_colour_(RGB)`)
+- Added a plugin icon
 - Added docs/LIMITATIONS.md
 - Renamed the plugin to TerraFetch (GPL-3.0-or-later licence, README with install steps and limitations)
 - Renamed the plugin to TerraFetch (GPL-3.0-or-later licence, README with install steps and limitations)

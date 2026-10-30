@@ -6,6 +6,7 @@ version=0.2
 author=Rohit Kumar
 email=rohit.kumar@azistaindustries.com
 about=TerraFetch searches Sentinel-2 L2A, Sentinel-1 RTC and Landsat imagery on the free Microsoft Planetary Computer (no account needed) for the current map extent. Preview scenes, stream them into QGIS as layers or export clipped GeoTIFFs. Includes a QuickFire-based forest-fire hotspot product for Sentinel-2 (indicative only).
+icon=icon.png
 tags=sentinel,landsat,satellite,raster,remote sensing,stac,imagery
 homepage=https://github.com/Rohit96080/TerraFetch
 repository=https://github.com/Rohit96080/TerraFetch

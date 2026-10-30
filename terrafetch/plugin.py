@@ -9,7 +9,7 @@ from osgeo import gdal
 from qgis.core import (Qgis, QgsBlockingNetworkRequest, QgsCoordinateReferenceSystem,
                        QgsCoordinateTransform, QgsProject, QgsRasterLayer)
 from qgis.PyQt.QtCore import QDate, Qt, QUrl
-from qgis.PyQt.QtGui import QCursor, QPixmap
+from qgis.PyQt.QtGui import QCursor, QIcon, QPixmap
 from qgis.PyQt.QtNetwork import QNetworkRequest
 from qgis.PyQt.QtWidgets import (QAction, QApplication, QComboBox, QDateEdit, QDialog,
                                  QCheckBox, QDoubleSpinBox, QFileDialog, QFrame, QGridLayout, QHBoxLayout, QLabel,
@@ -516,7 +516,8 @@ class TerraFetch:
         self.dlg = None
 
     def initGui(self):
-        self.action = QAction("TerraFetch", self.iface.mainWindow())
+        self.action = QAction(QIcon(os.path.join(os.path.dirname(__file__), "icon.png")), "TerraFetch",
+                             self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addPluginToMenu("&TerraFetch", self.action)
         self.iface.addToolBarIcon(self.action)
