@@ -1,8 +1,0 @@
-[general]
-name=Sentinel Loader
-qgisMinimumVersion=3.30
-description=Search Sentinel-1, Sentinel-2 and Landsat imagery, load it in QGIS and export it as GeoTIFF
-version=0.2
-author=Rohit Kumar
-email=rohit.kumar@azistaindustries.com
-about=Streams Sentinel-2 L2A, Sentinel-1 RTC and Landsat C2 L2 (with preview and a QuickFire forest-fire product) from the free Microsoft Planetary Computer STAC (no account needed) for the current map extent.

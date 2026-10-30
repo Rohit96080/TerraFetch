@@ -212,7 +212,7 @@ class Dialog(QDialog):
         head = QHBoxLayout()
         titles = QVBoxLayout()
         titles.setSpacing(0)
-        titles.addWidget(QLabel("Sentinel Loader", objectName="title"))
+        titles.addWidget(QLabel("TerraFetch", objectName="title"))
         titles.addWidget(QLabel("Sentinel-1/2 & Landsat imagery for the current map extent", objectName="sub"))
         head.addLayout(titles, 1)
         helpb = QPushButton("?", objectName="x")
@@ -305,7 +305,7 @@ class Dialog(QDialog):
         except OSError:
             html = "<p>help.html is missing from the plugin folder.</p>"
         dlg = QDialog(self)
-        dlg.setWindowTitle("Sentinel Loader - Help")
+        dlg.setWindowTitle("TerraFetch - Help")
         dlg.setStyleSheet("QDialog { background: rgb(28,38,64); }")
         dlg.resize(760, 760)
         view = QTextBrowser()
@@ -331,7 +331,7 @@ class Dialog(QDialog):
         self.status.setStyleSheet(f"background: {'rgba(34,197,94,70)' if ok else 'rgba(239,68,68,90)'};")
         self.status.setText(("✔  " if ok else "✖  ") + msg)
         self.iface.messageBar().pushMessage(
-            "Sentinel Loader", msg, Qgis.MessageLevel.Success if ok else Qgis.MessageLevel.Critical, 6)
+            "TerraFetch", msg, Qgis.MessageLevel.Success if ok else Qgis.MessageLevel.Critical, 6)
 
     def colls(self):
         """Collection labels to search: the chosen one, or every collection of the satellite."""
@@ -509,20 +509,20 @@ class Dialog(QDialog):
         self.report(f"Exported to {out} and added to the project.", ok=True)
 
 
-class SentinelLoader:
+class TerraFetch:
     def __init__(self, iface):
         self.iface = iface
         self.action = None
         self.dlg = None
 
     def initGui(self):
-        self.action = QAction("Sentinel Loader", self.iface.mainWindow())
+        self.action = QAction("TerraFetch", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
-        self.iface.addPluginToMenu("&Sentinel Loader", self.action)
+        self.iface.addPluginToMenu("&TerraFetch", self.action)
         self.iface.addToolBarIcon(self.action)
 
     def unload(self):
-        self.iface.removePluginMenu("&Sentinel Loader", self.action)
+        self.iface.removePluginMenu("&TerraFetch", self.action)
         self.iface.removeToolBarIcon(self.action)
 
     def run(self):
