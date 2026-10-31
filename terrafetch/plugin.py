@@ -101,7 +101,7 @@ def busy():
 def get_json(url):
     # QGIS network stack so the user's QGIS proxy / auth settings apply
     req = QgsBlockingNetworkRequest()
-    if req.get(QNetworkRequest(QUrl(url))) != req.NoError:
+    if req.get(QNetworkRequest(QUrl(url))) != 0:  # 0 = NoError (works with both the QGIS 3 and QGIS 4 enum styles)
         raise RuntimeError(f"Network request failed: {req.errorMessage()}")
     return json.loads(bytes(req.reply().content()))
 
@@ -196,6 +196,8 @@ class Dialog(QDialog):
         self.bbox = None
         self._drag = None
         gdal.SetConfigOption("GDAL_DISABLE_READDIR_ON_OPEN", "EMPTY_DIR")
+        # Windows: use the OS certificate store, else some networks give "HTTP response code ...: 0"
+        gdal.SetConfigOption("GDAL_HTTP_USE_CAPI_STORE", "YES")
         self.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.FramelessWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setStyleSheet(QSS)

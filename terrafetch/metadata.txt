@@ -1,6 +1,8 @@
 [general]
 name=TerraFetch
 qgisMinimumVersion=3.30
+qgisMaximumVersion=4.99
+supportsQt6=True
 description=Search, preview, load and export Sentinel-1, Sentinel-2 and Landsat imagery for the current map extent
 version=0.2
 author=Rohit Kumar

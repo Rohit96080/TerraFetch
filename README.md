@@ -85,6 +85,7 @@ The AOI is fixed when you click Search. If you move the map afterwards, search a
 | Message | What to do |
 |---|---|
 | "No scenes found" | Widen the dates, raise the cloud limit, or move the map |
+| "HTTP response code … : 0" when loading | Use the latest version (it uses the Windows certificate store). If it persists, ask IT to allow `*.blob.core.windows.net` |
 | "Network request failed" | Check your internet, proxy or firewall |
 | "Scene … has no … asset" | The product is not available for that scene; pick another |
 | "AOI is larger than …" | Zoom in, search again, then retry |
